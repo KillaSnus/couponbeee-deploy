@@ -1,0 +1,119 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (request.auth.token.role == 'admin' ||
+         request.auth.token.admin == true ||
+         request.auth.token.email.matches('.*@biorals\\.com'));
+    }
+
+    // Public read-only collections (with admin write access)
+    match /merchants/{merchantId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /merchantCategories/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /coupons/{couponId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /deals/{dealId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /blogPosts/{postId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /authors/{authorId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /faqs/{faqId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /editorialNotes/{noteId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /verificationLogs/{logId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User interaction collections
+    match /couponReports/{reportId} {
+      // Anyone can submit a report; only admins can list and update status
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /userSubmissions/{subId} {
+      // Anyone can submit a community coupon; only admins can review
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /clickEvents/{clickId} {
+      // Outbound click logging
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /conversionEvents/{convId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /newsletterSubscribers/{subId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Protected Admin collections
+    match /affiliateNetworks/{netId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /affiliateLinks/{linkId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /adminLogs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+    }
+  }
+}

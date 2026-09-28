@@ -1,0 +1,11 @@
+services:
+  biorals-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: biorals_production
+    ports:
+      - "80:80"
+    restart: always
+    environment:
+      - NODE_ENV=production

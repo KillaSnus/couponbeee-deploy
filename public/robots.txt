@@ -1,0 +1,29 @@
+# Biorals Robots.txt Configuration
+User-agent: *
+Allow: /
+Allow: /stores
+Allow: /stores/*
+Allow: /coupons
+Allow: /coupons/*
+Allow: /deals
+Allow: /deals/*
+Allow: /categories
+Allow: /categories/*
+Allow: /blog
+Allow: /blog/*
+Allow: /about
+Allow: /contact
+Allow: /affiliate-disclosure
+Allow: /privacy
+Allow: /terms
+Allow: /cookie-policy
+
+# Disallow internal admin, search result parameters, and tracking redirect endpoints
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /search
+Disallow: /search*
+Disallow: /go/
+Disallow: /go/*
+
+Sitemap: https://biorals.com/sitemap.xml

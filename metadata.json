@@ -1,0 +1,8 @@
+{
+  "name": "Biorals - Verified Coupons, Promo Codes & Genuine Deals",
+  "description": "Discover tested discount codes, authentic promotional coupons, and verified merchant deals curated with genuine test logs and transparency.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
